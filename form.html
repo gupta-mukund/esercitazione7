@@ -4,24 +4,73 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="variabili.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
   </head>
   <body>
+    <h1>Calcolo Codice Fiscale</h1>
     <form action="script.php" method="post" class="container">
-      <h4>Nome</h4>
-      <input type="text" name="nome" id="nome" placeholder="Nome" />
-      <input type="text" name="cognome" id="cognome" placeholder="Cognome" />
-      <h4>Data di nascita</h4>
-      <input type="text" name="giorno" id="giorno" placeholder="DD" />
-      <input type="text" name="mese" id="mese" placeholder="MM" />
-      <input type="text" name="anno" id="anno" placeholder="YYYY" />
-      <h4>Sesso</h4>
-      <label for="maschio">Maschio</label>
-      <input type="radio" name="sesso" value="M" id="maschio" />
-      <label for="femmmina">Femmina</label>
-      <input type="radio" name="sesso" value="F" id="femmina" />
+      <h4>Dati anagrafici</h4>
+      <input type="text" name="nome" id="nome" placeholder="Nome" required />
+      <input
+        type="text"
+        name="cognome"
+        id="cognome"
+        placeholder="Cognome"
+        required
+      />
+      <div class="row">
+        <h4>Data di nascita</h4>
+        <input
+          type="number"
+          name="giorno"
+          id="giorno"
+          placeholder="DD"
+          required
+          min="1"
+          max="31"
+        />
+        <input
+          type="number"
+          name="mese"
+          id="mese"
+          placeholder="MM"
+          required
+          min="1"
+          max="12"
+        />
+        <input
+          type="number"
+          name="anno"
+          id="anno"
+          placeholder="YYYY"
+          required
+          min="1900"
+          max="2022"
+        />
+        <h4>Sesso</h4>
+        <div class="gender_container">
+          <label for="maschio">Maschio</label>
+          <input type="radio" name="sesso" value="M" id="maschio" required />
+          <label for="femmmina">Femmina</label>
+          <input type="radio" name="sesso" value="F" id="femmina" required />
+        </div>
+      </div>
       <h4>Comune</h4>
+      <select id="comune" name="comune" required>
+        <optgroup id="comuniItaliani"></optgroup>
+      </select>
       <button type="submit">Submit</button>
     </form>
   </body>
+  <script defer>
+    console.log(comuni);
+    for (let p = 0; p < comuni.length; p++) {
+      var nuovoComune = document.createElement("option");
+      nuovoComune.innerHTML = comuni[p].nome;
+      nuovoComune.value = comuni[p].codiceCatastale;
+      document.getElementById("comuniItaliani").appendChild(nuovoComune);
+    }
+  </script>
 </html>

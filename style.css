@@ -1,0 +1,134 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+html,
+body {
+  font-size: 62.5%;
+}
+
+h1 {
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  width: 90%;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.container {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  background-color: yellow;
+  width: 50%;
+  height: 70%;
+  left: 25%;
+  top: 15%;
+  padding: 10px;
+  border-radius: 20px;
+  background: #00d2ff;
+  background: -webkit-linear-gradient(to right, #928dab, #00d2ff);
+  background: linear-gradient(to right, #928dab, #00d2ff);
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+h4 {
+  font-size: 1.8rem;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+  font-size: 1.6rem;
+  outline: none;
+  padding: 10px;
+}
+
+#nome,
+#cognome {
+  width: calc(100% - 20px);
+  margin-left: 10px;
+}
+
+#nome {
+  margin-bottom: 20px;
+}
+
+#giorno,
+#mese,
+#anno {
+  width: 31%;
+}
+
+#giorno {
+  margin-left: 10px;
+}
+
+.gender_container {
+  margin-left: 10px;
+}
+
+label {
+  font-size: 1.6rem;
+}
+
+select {
+  font-size: 1.6rem;
+  width: 90%;
+  margin: auto;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+button {
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid #000;
+  box-sizing: border-box;
+  color: #000;
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-family: Inter, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  height: 50px;
+  justify-content: center;
+  letter-spacing: -0.8px;
+  line-height: 24px;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 15px;
+  outline: 0;
+  padding: 0 17px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:focus {
+  color: #171e29;
+}
+
+button:hover {
+  border-color: #00d2ff;
+  color: #00d2ff;
+  fill: #00d2ff;
+}
+
+button:active {
+  border-color: #00d2ff;
+  color: #00d2ff;
+  fill: #00d2ff;
+}
