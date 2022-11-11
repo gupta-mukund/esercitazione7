@@ -1,43 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="variabili.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
-    <style>
-    .container {
-        border-radius: 20px;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-content: center;
-        border: 3px solid black;
-        width: 50%;
-        height: 30%;
-        position: absolute;
-        left: 25%;
-        top: 35%;
-        text-align: center;
+  </head>
+  <body>
+    <h1>Calcolo Codice Fiscale</h1>
+    <form action="" method="post" class="container">
+      <h4>Dati anagrafici</h4>
+      <input type="text" name="nome" id="nome" placeholder="Nome" required />
+      <input
+        type="text"
+        name="cognome"
+        id="cognome"
+        placeholder="Cognome"
+        required
+      />
+      <div class="row">
+        <h4>Data di nascita</h4>
+        <input
+          type="number"
+          name="giorno"
+          id="giorno"
+          placeholder="DD"
+          required
+          min="1"
+          max="31"
+        />
+        <input
+          type="number"
+          name="mese"
+          id="mese"
+          placeholder="MM"
+          required
+          min="1"
+          max="12"
+        />
+        <input
+          type="number"
+          name="anno"
+          id="anno"
+          placeholder="YYYY"
+          required
+          min="1900"
+          max="2022"
+        />
+        <h4>Sesso</h4>
+        <div class="gender_container">
+          <label for="maschio">Maschio</label>
+          <input type="radio" name="sesso" value="M" id="maschio" required />
+          <label for="femmmina">Femmina</label>
+          <input type="radio" name="sesso" value="F" id="femmina" required />
+        </div>
+      </div>
+      <h4>Comune</h4>
+      <select id="comune" name="comune" required>
+        <optgroup id="comuniItaliani"></optgroup>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+  <script defer>
+    console.log(comuni);
+    for (let p = 0; p < comuni.length; p++) {
+      var nuovoComune = document.createElement("option");
+      nuovoComune.innerHTML = comuni[p].nome;
+      nuovoComune.value = comuni[p].codiceCatastale;
+      document.getElementById("comuniItaliani").appendChild(nuovoComune);
     }
-</style>
-</head>
-<body>
-    <table id="mytable" class="table table-bordred table-striped">
-    <!-- <thead>
-    <th>#</th>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Email</th>
-    <th>Contact</th>
-    <th>Address</th>
-    <th>Posting Date</th>
-    <th>Edit</th>
-    <th>Delete</th>
-    </thead> -->
-    <tbody>
+  </script>
+</html>
+
+
 <?php
-    require_once 'dbconfig.php';
     $vocali = array("A", "E", "I", "O", "U");
     $lettereMese = [
         "01" => "A",
@@ -160,13 +199,7 @@
         "25" => "Z",
       ];
 
-    $nome = $_POST["nome"];
-    $cognome = $_POST["cognome"];
-    $giorno = $_POST["giorno"];
-    $mese = $_POST["mese"];
-    $anno = $_POST["anno"];
-    $sesso = $_POST["sesso"];
-    $comune = $_POST["comune"];
+    
 
     function selectCognome($dato) {
         $stringa = "";
@@ -247,65 +280,21 @@
         return $carattereControllo;
     }
 
-    $codiceFiscaleIncompleto = selectCognome($cognome) . selectNome($nome) . codiceAnni($sesso, $giorno, $mese, $anno) . $comune;
-    $codiceFiscale = $codiceFiscaleIncompleto . creaCarattereControllo($codiceFiscaleIncompleto);
-    
-    $sql = "SELECT Nome, Cognome, Giorno, Mese, Anno, Sesso, Comune, CodiceFiscale from dati";
-    $query = $dbh->prepare($sql);
-    $query->execute();
-    $results=$query->fetchAll(PDO::FETCH_OBJ);
-    $cnt = 1;
-    if ($query->rowCount() > 0) {
-        foreach($results as $result) { ?>
-            <tr>
-                <td><?php echo htmlentities($cnt);?></td>
-                <td><?php echo htmlentities($result->FirstName);?></td>
-                <td><?php echo htmlentities($result->LastName);?></td>
-                <td><?php echo htmlentities($result->EmailId);?></td>
-                <td><?php echo htmlentities($result->ContactNumber);?></td>
-                <td><?php echo htmlentities($result->Address);?></td>
-                <td><?php echo htmlentities($result->PostingDate);?></td>
-                <td><a href="update.php?id=<?php echo htmlentities($result->id);?>"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
-                <td><a href="index.php?del=<?php echo htmlentities($result->id);?>"><button class="btn btn-danger btn-xs" onClick="return confirm('Do you really want to delete');"><span class="glyphicon glyphicon-trash"></span></button></a></td>
-            </tr>
-            <?php
-            $cnt++;
-            
-        }
-    }
-    $sql="INSERT INTO dati(Nome, Cognome, Giorno, Mese, Anno, Sesso, Comune, CodiceFiscale) VALUES(:nm,:cg,:gio,:mes,:ann,:sex,:com,:codf)";
-    $query = $dbh->prepare($sql);
-    // Bind the parameters
-    $query->bindParam(':nm',$nome,PDO::PARAM_STR);
-    $query->bindParam(':cg',$cognome,PDO::PARAM_STR);
-    $query->bindParam(':gio',$giorno,PDO::PARAM_STR);
-    $query->bindParam(':mes',$mese,PDO::PARAM_STR);
-    $query->bindParam(':ann',$anno,PDO::PARAM_STR);
-    $query->bindParam(':sex',$sesso,PDO::PARAM_STR);
-    $query->bindParam(':com',$comune,PDO::PARAM_STR);
-    $query->bindParam(':codf',$codiceFiscale,PDO::PARAM_STR);
-    // Query Execution
-    $query->execute();
-    $lastInsertId = $dbh->lastInsertId();
-    if($lastInsertId)
-    {
-    // Message for successfull insertion
-    echo "<script>alert('Record inserted successfully');</script>";
-    echo "<script>window.location.href='index.php'</script>"; 
-    }
-    else 
-    {
-    // Message for unsuccessfull insertion
-    echo "<script>alert('Something went wrong. Please try again');</script>";
-    echo "<script>window.location.href='index.php'</script>"; 
+    if ($_POST) {
+        $nome = $_POST["nome"];
+        $cognome = $_POST["cognome"];
+        $giorno = $_POST["giorno"];
+        $mese = $_POST["mese"];
+        $anno = $_POST["anno"];
+        $sesso = $_POST["sesso"];
+        $comune = $_POST["comune"];
+        $codiceFiscaleIncompleto = selectCognome($cognome) . selectNome($nome) . codiceAnni($sesso, $giorno, $mese, $anno) . $comune;
+        $codiceFiscale = $codiceFiscaleIncompleto . creaCarattereControllo($codiceFiscaleIncompleto);
+        ?>
+        <div>
+            <h1>Codice Fiscale:</h1>
+            <h2><?php echo $codiceFiscale ?></h2>
+        </div>
+        <?php
     }
     ?>
-    
-    <!-- echo "<div class='container'>
-        <div><h1>Codice Fiscale:</h1></div>
-        <div><h2>$codiceFiscale</h2></div>
-    </div>"; -->
-</tbody>
-</body>
-</table>
-<html>
